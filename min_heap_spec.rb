@@ -30,6 +30,60 @@ describe Node do
   end
 end
 
+describe NodeCollection do
+  it 'should initialize an array of inputs in to a collection of nodes' do
+    input = [12, 31, 17]
+
+    collection = NodeCollection.new(input)
+
+    expect(collection.original.map(&:value)).to eq([12, 31, 17])
+  end
+
+  it '#min_node' do
+    input = [12, 31, 17]
+
+    collection = NodeCollection.new(input)
+    input = collection.original
+
+    min_node = collection.min_node(input)
+
+    expect(min_node.value).to eq(12)
+  end
+
+  it '#min_node_index' do
+    input = [12, 31, 10]
+
+    collection = NodeCollection.new(input)
+    input = collection.original
+
+    min_node_index = collection.min_node_index(input)
+
+    expect(min_node_index).to eq(2)
+  end
+
+  it '#right_collection' do
+    input = [12, 31, 10, 11, 91]
+
+    collection = NodeCollection.new(input)
+    input = collection.original
+
+    right_collection = collection.right_collection(input)
+
+    expect(right_collection.map(&:value)).to eq([11, 91])
+  end
+
+  it '#left_collection' do
+    input = [12, 31, 10, 11, 91]
+
+    collection = NodeCollection.new(input)
+    input = collection.original
+
+    left_collection = collection.left_collection(input)
+
+    expect(left_collection.map(&:value)).to eq([12, 31])
+  end
+end
+
 describe BinaryMinHeap do
   context 'simplest cases' do
     # it '[12, 31, 4]' do
