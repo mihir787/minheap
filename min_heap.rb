@@ -44,29 +44,32 @@ class BinaryMinHeap
   attr_reader :root
 
   def initialize(input)
-    @original_input = input
     @node_collection = NodeCollection.new(input)
   end
 
-  def set
-    original = node_collection.original
-    left = node_collection.left_collection(original)
-    puts "Left #{left}"
-    right = node_collection.right_collection(original)
-    puts "Right #{right}"
+  def set(node_collection_set: node_collection.original)
+    left = node_collection.left_collection(node_collection_set)
+    right = node_collection.right_collection(node_collection_set)
 
-    #set_root_node
-    parent_node = node_collection.min_node(original)
+    parent_node = node_collection.min_node(node_collection_set)
     @root = parent_node unless root
 
-    #set_left_node
-    parent_node.left_node = node_collection.min_node(left)
+    unless left.empty?
+      left_min_node = node_collection.min_node(left)
+      parent_node.left_node = left_min_node
+      left_min_node.parent_node = parent_node
+      set(node_collection_set: left)
+    end
 
-    #set_right_node
-    parent_node.right_node = node_collection.min_node(right)
+    unless right.empty?
+      right_min_node = node_collection.min_node(right)
+      parent_node.right_node = right_min_node
+      right_min_node.parent_node = parent_node
+      set(node_collection_set: right)
+    end
   end
 
   private
 
-  attr_reader :original_input, :node_collection
+  attr_reader :node_collection
 end
