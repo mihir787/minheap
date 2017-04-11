@@ -138,4 +138,37 @@ describe BinaryMinHeap do
       expect(root.right_node.left_node.value).to eq(31)
     end
   end
+
+  context '4 numbers' do
+    it '[1, 5, 2, 4]' do
+      input = [1, 5, 2, 4]
+
+      bh = BinaryMinHeap.new(input)
+
+      bh.set
+      root = bh.root
+
+      expect(root.value).to eq(1)
+      expect(root.right_node.value).to eq(2)
+      expect(root.right_node.left_node.value).to eq(5)
+      expect(root.right_node.right_node.value).to eq(4)
+    end
+  end
+
+  context '5 numbers' do
+    it '[10, 2, 9, 7, 3]' do
+      input = [10, 2, 9, 7, 3]
+
+      bh = BinaryMinHeap.new(input)
+
+      bh.set
+      root = bh.root
+
+      expect(root.value).to eq(2)
+      expect(root.left_node.value).to eq(10)
+      expect(root.right_node.value).to eq(3)
+      expect(root.right_node.left_node.value).to eq(7)
+      expect(root.right_node.left_node.left_node.value).to eq(9)
+    end
+  end
 end
