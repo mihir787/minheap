@@ -2,6 +2,8 @@ require 'rspec'
 require_relative 'min_heap'
 
 describe Node do
+  let(:another_node) { Node.new(21) }
+
   it 'should have a value' do
     node = Node.new(33)
 
@@ -9,29 +11,26 @@ describe Node do
   end
 
   it 'should have a parent node if present' do
-    parent_node = Node.new(21)
-    node = Node.new(33, parent_node: parent_node)
+    node = Node.new(33, parent_node: another_node)
 
-    expect(node.parent_node).to eq parent_node
+    expect(node.parent_node).to eq another_node
   end
 
   it 'should have a left node' do
-    left_node = Node.new(21)
-    node = Node.new(33, left_node: left_node)
+    node = Node.new(33, left_node: another_node)
 
-    expect(node.left_node).to eq left_node
+    expect(node.left_node).to eq another_node
   end
 
   it 'should have a right node' do
-    right_node = Node.new(21)
-    node = Node.new(33, right_node: right_node)
+    node = Node.new(33, right_node: another_node)
 
-    expect(node.right_node).to eq right_node
+    expect(node.right_node).to eq another_node
   end
 end
 
 describe NodeCollection do
-  it 'should initialize an array of inputs in to a collection of nodes' do
+  it '#original' do
     input = [12, 31, 17]
 
     collection = NodeCollection.new(input)
@@ -61,26 +60,26 @@ describe NodeCollection do
     expect(min_node_index).to eq(2)
   end
 
-  it '#right_collection' do
+  it '#right_subset' do
     input = [12, 31, 10, 11, 91]
 
     collection = NodeCollection.new(input)
     input = collection.original
 
-    right_collection = collection.right_collection(input)
+    right_subset = collection.right_subset(input)
 
-    expect(right_collection.map(&:value)).to eq([11, 91])
+    expect(right_subset.map(&:value)).to eq([11, 91])
   end
 
-  it '#left_collection' do
+  it '#left_subset' do
     input = [12, 31, 10, 11, 91]
 
     collection = NodeCollection.new(input)
     input = collection.original
 
-    left_collection = collection.left_collection(input)
+    left_subset = collection.left_subset(input)
 
-    expect(left_collection.map(&:value)).to eq([12, 31])
+    expect(left_subset.map(&:value)).to eq([12, 31])
   end
 end
 
